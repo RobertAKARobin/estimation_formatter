@@ -27,7 +27,9 @@ function parseInput(raw){
 			[39, 'iOS', 'lo'],
 			[40, 'iOS', 'hi'],
 			[41, 'Design', 'lo'],
-			[42, 'Design', 'hi']
+			[42, 'Design', 'hi'],
+			[43, 'Total', 'lo'],
+			[44, 'Total', 'hi']
 		]
 	}
 
@@ -67,9 +69,21 @@ function parseInput(raw){
 				}
 			});
 			section[practice][range] += feature[practice][range];
-
 			if(feature['action'] == 'o'){
 				section[practice]['optional'][range] += feature[practice][range];
+			}
+
+			project[practice] = (project[practice] || {
+				'lo': 0,
+				'hi': 0,
+				'optional': {
+					'lo': 0,
+					'hi': 0
+				}
+			});
+			project[practice][range] += feature[practice][range];
+			if(feature['action'] == 'o'){
+				project[practice]['optional'][range] += feature[practice][range];
 			}
 		}
 	});
