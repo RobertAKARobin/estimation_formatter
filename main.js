@@ -1,15 +1,18 @@
 'use strict';
 
+var Input;
+
 var Wrapper = (function(){
 	return {
 		view: function(){
 			return [
-				m('h1', 'Hello, world')
-			]
+				m('p', Input)
+			];
 		}
 	}
 })();
 
-document.addEventListener('DOMContentLoaded', function(){
+window.addEventListener('message', function(event){
+	Input = event.data;
 	m.mount(document.getElementById('output'), Wrapper);
 });
