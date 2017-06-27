@@ -2,6 +2,14 @@
 <html>
 	<head>
 		<title>Estimate Formatter</title>
+		<style>
+table, td, th{
+	text-align:left;
+	border:1px solid #999;
+	border-collapse:collapse;
+	border-spacing:0;
+}
+		</style>
 		<script src="mithril.js"></script>
 		<script>
 'use strict';
@@ -108,16 +116,47 @@ var Input;
 var Wrapper = (function(){
 	return {
 		view: function(){
+			var practices = Object.keys(Input.practices);
+			var sections = Object.values(Input.sections);
 			return [
-				m('p', JSON.stringify(Input))
+				m('h1', 'Major components of this project:'),
+				m('table', [
+					m('tr', [
+						m('th', 'Title'),
+						practices.map(function(practice){
+							return [
+								m('th', practice + ' Lo'),
+								m('th', practice + ' Hi')
+							]
+						})
+					]),
+					sections.map(function(section, index){
+						return m('tr', [
+							m('th', (index + 1) + '. ' + section.title),
+							practices.map(function(practice){
+								return [
+									m('td', $(section[practice]['lo'])),
+									m('td', $(section[practice]['hi']))
+								]
+							})
+						])
+					})
+				])
 			];
+		}
+	}
+
+	function $(value){
+		if(value){
+			return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		}else{
+			return '';
 		}
 	}
 })();
 
 window.addEventListener('message', function(event){
 	Input = parseInput(event.data);
-	console.log(Input);
 	m.mount(document.getElementById('output'), Wrapper);
 });
 		</script>
