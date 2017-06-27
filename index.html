@@ -10,6 +10,7 @@ function parseInput(raw){
 	var rowsIn = JSON.parse(raw);
 	var sections = {};
 	var project = {};
+	var practices = {};
 	var mapping = {
 		text: [
 			[0, 'action'],
@@ -88,9 +89,17 @@ function parseInput(raw){
 		}
 	});
 
+	mapping.practices.forEach(function(practice){
+		practice = practice[1];
+		if(project[practice] && (project[practice]['lo'] > 0 || project[practice]['hi'])){
+			practices[practice] = true;
+		}
+	});
+
 	return {
 		project: project,
-		sections: sections
+		sections: sections,
+		practices: practices
 	};
 }
 
